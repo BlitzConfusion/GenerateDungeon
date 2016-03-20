@@ -7,7 +7,7 @@ Ohjelma saa syötteenä ainakin koon. Jos koko on liian pieni kunnollisen komple
 Tavoitteena on järjellisillä syötteillä saada generointiaika mahtumaan 5-7:ään sekunttiin, kymmeneen jos generoidaan muutakin kuin vain huoneet itsessään.
 
 Ohjelma pyrkii aluksi semi-syvyyssuuntaiseen (pientä mutkittelua, ettei reitistä tule putkea) läpikäyntiin, jotta saadaan aikaiseksi pakollinen onnistunut reitti välillä Exit A ja Exit B.
-Kun tämä tavoite on saavutettu, ohjelma pyrkii puolisatunnaisesti semi-leveyssuuntaisesti "leventämään" luolaston muuksikin kuin kiemurtelevaksi putkijuoksuksi. Ohjela lakkaa kun tietty määrä annettua luolastopinta-alaa on hyödynnetty loppuun. Vaihtoehtoinen lopetus on, ettei uusia huoneita mahdu enempää.
+Kun tämä tavoite on saavutettu, ohjelma pyrkii puolisatunnaisesti semi-leveyssuuntaisesti "leventämään" luolaston muuksikin kuin kiemurtelevaksi putkijuoksuksi. Ohjelma lakkaa kun tietty määrä annettua luolastopinta-alaa on hyödynnetty loppuun. Vaihtoehtoinen lopetus on, ettei uusia huoneita mahdu enempää.
 
 Lähteet tulevat merkityiksi sitä mukaa kun löydän hyödyllisiä lähteitä.
 
