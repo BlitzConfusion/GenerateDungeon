@@ -36,6 +36,7 @@ package rooms;
     public Room(int numero) {
         number = numero;
         way = true;
+        dungeon = false;
     }
     /**
      * setChild pakottaa huoneen laittamaan itselleen lapsen tai delegoimaan
@@ -43,6 +44,9 @@ package rooms;
      * @param uusi on lisättävä huone.
      */
     public void setChild(Room uusi){
+        if (uusi.getType().equals("the Exit")) {
+            dungeon = true;
+        }
         if (lapsi1 == null) {
             lapsi1 = uusi;
             lapsi1.setParent(this);
@@ -66,14 +70,30 @@ package rooms;
     public int getLevel() {
         return level;
     }
+    /**
+     * Antaa takaisin stringin huoneen tyypistä.
+     * @return roomType String.
+     */
     public String getType() {
         return roomType;
     }
+    
+    /**
+     * Asettaa vanhemman uudelle huoneelle.
+     * @param vanhempi on huone joka asetetaan vanhemmaksi.
+     */
     public void setParent(Room vanhempi) {
         parent = vanhempi;
     }
     /**
-     * Keskeneräinen, tulee toimimaan uloskirjoittajana printInfo:n kanssa.
+     * Kertoo josko huone on oleellinen uloskäyntien välikululle.
+     * @return vastaus tähän kysymykseen.
+     */
+    public boolean isBetweenExits() {
+        return dungeon;
+    }
+    /**
+     * Toimii aukikirjoittajana printInfo:n kanssa.
      */
     public void kulje (){
         printInfo();
@@ -93,14 +113,15 @@ package rooms;
     public void killParent(){
         parent = null;
     }/**
-     * palayttaa huoneen seuraavan virtaussuunnan. Ei välttämättä tarpeellinen.
+     * palauttaa huoneen seuraavan virtaussuunnan. Ei välttämättä tarpeellinen.
      * @return virtaussuunta.
      */
     public boolean getWay() {
         return way;
     }
     /**
-     * Tämä metodi kirjoittaa auki muodostetun Dungeonin.
+     * Tämä metodi kirjoittaa auki muodostetun Dungeonin. Ei vielä huomioi
+     * onko reitti auki juuren suuntaan.
      */
     public void printInfo() {
         System.out.print("Room " + number + " is " + roomType + " which leads to " );

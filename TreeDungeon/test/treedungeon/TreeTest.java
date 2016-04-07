@@ -64,5 +64,11 @@ public class TreeTest {
         Tree tree = new Tree(1, 1);
         assertTrue(tree.root.getLevel() == 0);
     }
+    @Test
+    public void testExitplaced() {
+        System.out.println("Check that the Exit has been placed.");
+        Tree tree = new Tree(1, 1);
+        assertTrue(tree.root.isBetweenExits());
+    }
     
 }

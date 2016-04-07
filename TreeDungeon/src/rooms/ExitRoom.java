@@ -11,9 +11,14 @@ package rooms;
  */
 public class ExitRoom extends Room {
 
+    /**
+     * 
+     * Huone on ilmeisesti aina oleellinen läpikulun kannalta. Täten dungeon = true.
+     */
     public ExitRoom(int numero) {
         super(numero);
         roomType = "the Exit";
+        dungeon = true;
     }
     
 }
