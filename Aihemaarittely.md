@@ -13,4 +13,4 @@ Lähteet tulevat merkityiksi sitä mukaa kun löydän hyödyllisiä lähteitä. 
 
 Ohjelman Aikavaativuus on suoraan verrannollinen luolaston kokoon. Uuden huoneen sijoittamisen aikavaativuus riippuu "syvyydestä", joka kasvaa erittäin hitaasti, koska tarvitaan aina kaksinkertainen määrä huoneita uuden kerroksen täyttöön ennen seuraavan aloittamista.
 
-Dungeon aukikirjoitetaan syvyyssuuntaisesti, kuitenkin vanhemmat ensin.
+Dungeon aukikirjoitetaan syvyyssuuntaisesti, kuitenkin vanhemmat (root) ensin intuitiivisen lukemisen helpottamiseksi.
