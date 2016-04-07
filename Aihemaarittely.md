@@ -9,6 +9,6 @@ Myöhemmässä vaiheessa tullaan yhteyksien muokkauksen lisäksi mahdollisesti m
 
 Lähteet tulevat merkityiksi sitä mukaa kun löydän hyödyllisiä lähteitä. Tähän mennessä olen tehnyt tätä päästäni.
 
-Ohjelman Aikavaativuus on suoraan verrannollinen luolaston kokoon. Uuden huoneen sijoittamisen aikavaativuus riippuu "syvyydestä", joka kasvaa erittäin hitaasti, koska tarvitaan aina kaksinkertainen määrä huoneita uuden kerroken täyttöön ennen seuraavan aloittamista.
+Ohjelman Aikavaativuus on suoraan verrannollinen luolaston kokoon. Uuden huoneen sijoittamisen aikavaativuus riippuu "syvyydestä", joka kasvaa erittäin hitaasti, koska tarvitaan aina kaksinkertainen määrä huoneita uuden kerroksen täyttöön ennen seuraavan aloittamista.
 
 Dungeon aukikirjoitetaan syvyyssuuntaisesti, kuitenkin vanhemmat ensin.
