@@ -18,7 +18,7 @@ public class TreeDungeon {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Tree tree = new Tree(300, 0);
+        Tree tree = new Tree(15, 0);
         tree.writeDungeon();
     }
     

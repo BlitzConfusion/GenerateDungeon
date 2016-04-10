@@ -18,9 +18,10 @@ package rooms;
  * poistoja ei haluta tälle linjalle ilman vakuuksia.
  */
  abstract class Room {
-    int level;
+    int level = 0;
     int number;
     String roomType;
+    int weight = 0;
     Room parent;
     Room lapsi1;
     Room lapsi2;
@@ -29,21 +30,24 @@ package rooms;
     boolean dungeon;
     
     /**
-     * 
-     * @param vanhempi antaa tiedon mikä huone on välittömin juuri.
      * @param numero antaa tiedon kuinka mones huone on kyseessä.
+     * @param paino antaa tiedon kuinka "arvokas" huone on.
      */
-    public Room(int numero) {
+    public Room(int numero, int paino) {
         number = numero;
         way = true;
         dungeon = false;
+        weight = paino;
+        roomType = "void";
     }
     /**
      * setChild pakottaa huoneen laittamaan itselleen lapsen tai delegoimaan
      * tämän tehtävän jollekin omistaan. Way toimii virranjakajana.
+     * Lisätessään katsoo että oksista välittömästi painavampi on "keskemmällä".
      * @param uusi on lisättävä huone.
      */
     public void setChild(Room uusi){
+        uusi.levelIncrease();
         if (uusi.getType().equals("the Exit")) {
             dungeon = true;
         }
@@ -52,9 +56,18 @@ package rooms;
             lapsi1.setParent(this);
             way = false;
         } else if (lapsi2 == null) {
-            lapsi2 = uusi;
+            if ((number % 2 == 0 && lapsi1.getPaino() < uusi.getPaino())
+                    || (number % 2 == 1 && lapsi1.getPaino() > uusi.getPaino())) {
+                lapsi2 = lapsi1;
+                lapsi1 = uusi;
+                lapsi1.setParent(this);
+                way = false;
+            } else {
+                lapsi2 = uusi;
+                way = true;
+            }
             lapsi2.setParent(this);
-            way = true;
+            
         } else if (way) {
             lapsi1.setChild(uusi);
             way = false;
@@ -63,12 +76,50 @@ package rooms;
             way = true;
         }
     }
+    
+    /**
+     * Jos tämä toimisi, metodi tekisi ristiinkytköksiä puussa. Ei toimi.
+     * @param gate antaa huoneelle jotain millä etsiä liitospäätä. 
+     */
+    //public void findConnectable(Room gate) {
+        //if (lapsi1 == null) {
+            //extra = gate.theOtherEnd();
+        //} else { 
+            //if (way) {
+                //way = false;
+                //lapsi1.findConnectable(gate);
+            //} else {
+                //way = true;
+                //lapsi2.findConnectable(gate);
+            //}
+        //}
+    //}
+    //Ei toimi. En saa palautettua konkreettista Room extensiota abstraktin sijaan,
+    //koska en tiedä mikä spesifi extensio pitäisi palauttaa. Pitää funtsia lisää.
+    //private Room theOtherEnd() {
+        //Room room = this;
+        //if (level < 2) {
+            //if (way) {
+                //room = lapsi1.theOtherEnd();
+            //} else {
+                //room = lapsi2.theOtherEnd();
+            //}
+        //}
+        
+        //return room;
+    //}
     /**
      * antaa tiedon kuinka syvällä ollaan. Lisäreiteille kiinnostavaa.
      * @return level, eli kuinka syvällä mennään.
      */
     public int getLevel() {
         return level;
+    }
+    /**
+     * Nostaa huoneen "kerrossyvyyttä" yhdellä.
+     */
+    public void levelIncrease() {
+        level += 1;
     }
     /**
      * Antaa takaisin stringin huoneen tyypistä.
@@ -78,6 +129,14 @@ package rooms;
         return roomType;
     }
     
+    /**
+     * palauttaa huoneen "arvon", millä katsotaan kuinka lähellä keskustaa 
+     * huoneen tulisi olla.
+     * @return weight.
+     */
+    public int getPaino() {
+        return weight;
+    }
     /**
      * Asettaa vanhemman uudelle huoneelle.
      * @param vanhempi on huone joka asetetaan vanhemmaksi.
@@ -120,6 +179,13 @@ package rooms;
         return way;
     }
     /**
+     * Asettaa ylimääräisen huoneen extra.
+     * @param room 
+     */
+    public void setExtra(Room room) {
+        extra = room;
+    }
+    /**
      * Tämä metodi kirjoittaa auki muodostetun Dungeonin. Ei vielä huomioi
      * onko reitti auki juuren suuntaan.
      */
@@ -128,7 +194,7 @@ package rooms;
         if ("the Exit".equals(roomType)) {
             System.out.print("away from this Dungeon Complex");
         } else {
-            if (lapsi1 == null) {
+            if (lapsi1 == null && extra == null) {
                 System.out.print("nowhere");
             } else {
                 System.out.print("room " + lapsi1.number + ", which is " 

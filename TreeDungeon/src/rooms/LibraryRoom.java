@@ -6,14 +6,14 @@
 package rooms;
 
 /**
- * Huonetyyppi. Ei erikoisuuksia.
- * 
+ *
+ * @author Tatu
  */
-public class ArmouryRoom extends Room {
+public class LibraryRoom extends Room {
 
-    public ArmouryRoom(int numero) {
-        super(numero);
-        roomType = "Armoury";
+    public LibraryRoom(int numero, int paino) {
+        super(numero, paino);
+        roomType = "Library";
     }
     
 }

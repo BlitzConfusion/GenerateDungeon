@@ -11,8 +11,8 @@ package rooms;
  */
 public class FarmRoom extends Room {
 
-    public FarmRoom(int numero) {
-        super(numero);
+    public FarmRoom(int numero, int paino) {
+        super(numero, paino);
         roomType = "Farm";
     }
     

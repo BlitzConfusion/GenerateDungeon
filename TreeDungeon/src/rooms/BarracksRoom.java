@@ -6,14 +6,14 @@
 package rooms;
 
 /**
- * Huonetyyppi. Laitetaan jos mitään muuta ei jäljellä tai epävalideja.
- *
+ * Huonetyyppi. Ei erikoisuuksia.
+ * 
  */
-public class CaveRoom extends Room {
+public class BarracksRoom extends Room {
 
-    public CaveRoom(int numero, int paino) {
+    public BarracksRoom(int numero, int paino) {
         super(numero, paino);
-        roomType = "Cave";
+        roomType = "Barracks";
     }
     
 }
