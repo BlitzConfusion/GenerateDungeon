@@ -43,7 +43,6 @@ package rooms;
     /**
      * setChild pakottaa huoneen laittamaan itselleen lapsen tai delegoimaan
      * tämän tehtävän jollekin omistaan. Way toimii virranjakajana.
-     * Lisätessään katsoo että oksista välittömästi painavampi on "keskemmällä".
      * @param uusi on lisättävä huone.
      */
     public void setChild(Room uusi){
@@ -56,18 +55,9 @@ package rooms;
             lapsi1.setParent(this);
             way = false;
         } else if (lapsi2 == null) {
-            if ((number % 2 == 0 && lapsi1.getPaino() < uusi.getPaino())
-                    || (number % 2 == 1 && lapsi1.getPaino() > uusi.getPaino())) {
-                lapsi2 = lapsi1;
-                lapsi1 = uusi;
-                lapsi1.setParent(this);
-                way = false;
-            } else {
-                lapsi2 = uusi;
-                way = true;
-            }
+            lapsi2 = uusi;
             lapsi2.setParent(this);
-            
+            way = true;    
         } else if (way) {
             lapsi1.setChild(uusi);
             way = false;
@@ -78,36 +68,45 @@ package rooms;
     }
     
     /**
-     * Jos tämä toimisi, metodi tekisi ristiinkytköksiä puussa. Ei toimi.
-     * @param gate antaa huoneelle jotain millä etsiä liitospäätä. 
+     * Metodi tekee ristiinkytköksiä puussa. Jos ExitRoom olisi yksi päistä,
+     * tai saataisiin null toiseksi pääksi, iteraatio hylätään.
+     * @param gate antaa huoneelle puun jolla etsiä liitospäätä. 
      */
-    //public void findConnectable(Room gate) {
-        //if (lapsi1 == null) {
-            //extra = gate.theOtherEnd();
-        //} else { 
-            //if (way) {
-                //way = false;
-                //lapsi1.findConnectable(gate);
-            //} else {
-                //way = true;
-                //lapsi2.findConnectable(gate);
-            //}
-        //}
-    //}
-    //Ei toimi. En saa palautettua konkreettista Room extensiota abstraktin sijaan,
-    //koska en tiedä mikä spesifi extensio pitäisi palauttaa. Pitää funtsia lisää.
-    //private Room theOtherEnd() {
-        //Room room = this;
-        //if (level < 2) {
-            //if (way) {
-                //room = lapsi1.theOtherEnd();
-            //} else {
-                //room = lapsi2.theOtherEnd();
-            //}
-        //}
-        
-        //return room;
-    //}
+    public void findConnectable(Room gate) {
+        if (lapsi1 == null) {
+            Room another = gate.theOtherEnd();
+            if (another == null || "the Exit".equals(this.getType()) 
+                    || "the Exit".equals(another.getType())) {
+                return;
+            }
+            another.setExtra(this);
+            setExtra(another);
+        } else { 
+            if (way && lapsi2 != null) {
+                lapsi2.findConnectable(gate);
+            } else {
+                lapsi1.findConnectable(gate);
+            }
+        }
+    }
+    /**
+     * Metodi etsii lähimmän virranmyötäisen huoneen, jolla ei ole extrakytköstä.
+     * Huoneet liian lähellä Gatea hylätään sopimattomina, kuten myös jo lisäkytketyt.
+     * @return vaatimukset täyttävä huone.
+     */
+    private Room theOtherEnd() {
+        Room room = this;
+        if (level < 2 || extra != null) {
+            if (way) {
+                way = false;
+                room = lapsi1.theOtherEnd();
+            } else {
+                way = true;
+                room = lapsi2.theOtherEnd();
+            }
+        }
+        return room;
+    }
     /**
      * antaa tiedon kuinka syvällä ollaan. Lisäreiteille kiinnostavaa.
      * @return level, eli kuinka syvällä mennään.
@@ -171,7 +170,8 @@ package rooms;
      */
     public void killParent(){
         parent = null;
-    }/**
+    }
+    /**
      * palauttaa huoneen seuraavan virtaussuunnan. Ei välttämättä tarpeellinen.
      * @return virtaussuunta.
      */
@@ -197,15 +197,21 @@ package rooms;
             if (lapsi1 == null && extra == null) {
                 System.out.print("nowhere");
             } else {
+                if (lapsi1 != null) {
                 System.out.print("room " + lapsi1.number + ", which is " 
                         + lapsi1.getType());
+                }
             }
             if (lapsi2 != null) {
                 System.out.print("; and room " + lapsi2.number + ", which is "
                         + lapsi2.getType());
             }
+            if (lapsi1 != null && extra != null) {
+                System.out.println(";");
+                System.out.print("and ");
+            }
             if (extra != null) {
-                System.out.print("; and room" + extra.number + ", which is "
+                System.out.print("faraway room " + extra.number + ", which is "
                         + extra.getType());
             }
             

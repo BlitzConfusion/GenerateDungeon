@@ -18,10 +18,13 @@ public class Tree {
     int libraries;
     int libraryweight;
     int farms;
+    int farmweight;
     int barracks;
     int barracksweight;
     int treasures;
+    int treasureweight;
     int nexus;
+    int nexusweight;
     int random;
     GateRoom root;
     
@@ -38,35 +41,45 @@ public class Tree {
         }
         if (rooms >= 256) {
             rooms = 256;
-        } 
-        if (seed < 0) {
-            random = 0 - seed;
-        } else {
-            random = seed;
         }
+        setSeed(seed);
+        standardValues(rooms);
+        createDungeon();
+        extraRoutes();
+    }
+    /**
+     * Asettaa painotuksia ja määriä huoneille.
+     */
+    private void standardValues(int rooms) {
         room = rooms;
+        farmweight = 5;
+        nexusweight = 2;
+        treasureweight = 3;
         farms = rooms / 3;
         libraries = rooms / 12;
         treasures = rooms / 12;
         barracks = rooms / 6;
         nexus = 1;
-        if ((seed & 1) == 0) {
+        if ((random & 1) == 0) {
             barracksweight = 13;
             libraryweight = 11;
         } else {
             barracksweight = 11;
             libraryweight = 7;
         }
-        createDungeon();
-        //Alla oleva ei toimi nyt syystä josta en ole varma.
-        //extraRoutes();
+    }
+    public void setSeed(int seed) {
+        if (seed < 0) {
+            random = 0 - seed;
+        } else {
+            random = seed;
+        }
     }
     /**
      * Metodi luo varsinaisen Dungeonin. Ensiksi Gate, lopuksi Exit.
      * Kysyy chooseRoomilta mitä välihuonetta asetetaan milläkin hetkellä.
-     * Jos ehtii implementoida, asettaa "arvokkaammat" huoneet aina "sisemmäksi"
-     * kunkin lapsen osalta (eli parittomilla oikealle, parillisilla vasemmalle
-     * haaralle).
+     * Asettaa "arvokkaammat" huoneet aina "sisemmäksi" kunkin lapsen osalta 
+     * (eli parittomilla oikealle, parillisilla vasemmalle haaralle).
      */
     public void createDungeon() {
         root = new GateRoom(0, 0);
@@ -106,25 +119,17 @@ public class Tree {
      * @return int-value that tells createdungeon() what to place next.
      */
     private int chooseRoom() {
-        int farm = farms * 5;
-        int n = 2 * nexus;
-        int treasure = 3 * treasures;
+        int farm = farms * farmweight;
+        int n = nexusweight * nexus;
+        int treasure = treasureweight * treasures;
         int libra = libraries * libraryweight;
         int forge = barracks * barracksweight;
         if(farm == 0 && n == 0 && treasure == 0 && libra == 0 && forge == 0 
                 && n == 0) {
-            farms += 3;
-            treasures += 1;
-            libraries += 1;
-            barracks += 2;
-            return 0;
+            return placeCave();
         }
         if (n > farm && n > treasure && n > libra && n > forge) {
-            nexus = 0;
-            treasures += 1;
-            libraries += 3;
-            barracks += 3;
-            return 1;
+            return placeNexus();
         }
         if (treasure > farm && treasure > libra && treasure > forge) {
             treasures -= 1;
@@ -142,13 +147,37 @@ public class Tree {
         return 5;
     }
     /**
+     * Tekee tarpeelliset muutokset Huoneiden jatkamiselle.
+     * @return 
+     */
+    private int placeCave() {
+        farms += 3;
+        libraries += 1;
+        barracks += 2;
+        return 0;
+    }
+    /**
+     * Tekee tarpeelliset huonemäärämuutokset NexusRoom:n laittamisen takia.
+     * @return 
+     */
+    private int placeNexus() {
+        nexus = 0;
+        treasures += 3;
+        libraries += 2;
+        barracks += 1;
+        return 1;
+    }
+    /**
      * Tulee muodostamaan ylimääräiset reitit huoneiden välillä puussa.
      * Tällä tavoin vähennetään ennalta-arvattavuutta ja pakittamista Dungeonissa.
      * Ei toimi tällä hetkellä syystä josta en ole varma.
      */
-    //private void extraRoutes() {
-        //root.findConnectable(root);
-    //}
+    private void extraRoutes() {
+        int jatkot = room / 3;
+        for (int i = 0; i < jatkot; i++) {
+            root.findConnectable(root);
+        }
+    }
     
     /**
      * Kirjoittaa auki Dungeonin. Ei vielä implementoitu tarkistusta onko reitti
