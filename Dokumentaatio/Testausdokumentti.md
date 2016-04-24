@@ -1,12 +1,9 @@
 #Alustava GenerateDungeon-testausdokumentti
 
-Ohjelman testaus on vielä keskeneräistä, sillä toiminnallisuuskin on vielä vain perusteiltaan kunnossa.
-
-On testattu, että valideilla (eli numeerisilla) syötteillä ohjelma ei hämmenny. Tämä tehtiin luomalla esimerkkipuita ja tarkistamalla yksityiskohtia.
-Tämän tarkempi kuvailu ennen lisätoiminnallisuutta ei ole kovin käytännöllistä.
-Tämä riittää siihen asti että luon varsinaisen käyttöliittymän joka kieltää ei-numeeriset syötteet.
+On manuaalisesti testattu, että valideilla (eli numeerisilla) syötteillä ohjelma ei hämmenny. Tämä tehtiin luomalla esimerkkipuita ja tarkistamalla yksityiskohtia. Ohjelma myöskin aina asettaa Nexuksen, mikä tapahtuu vain muiden huoneiden puutteessa, eli pienillä syötteillä olisi teoreettisesti mahdollista ettei Nexus ehtisi mukaan. Näin ei kuitenkaan käy.
 
 On testattu valideilla, negatiivisilla ja ylisuurilla numeerisilla syötteillä.
 
-Myöhemmin voidaan lisään tarkempia yksityiskohtia testaavia testejä kun toiminnallisuus kasvaa. Nykyisellä toiminnallisuudella
-tällainen on käytännössä redundanttia.
+Sekä Room- että Tree-luokille on luotu testausluokat. Puun itsensä yksityiskohtaisessa testaamisessa on se ongelma, että pyritään simuloituun semi-epädeterministiseen puuhun, eli ei ole tarkkaa tietoa huoneiden sijainnista ja/tai määrästä, ja epädeterministinen huonemuodostus olisikin itseasiassa tavoitteen kannalta positiivista. On pyritty katsomaan että sekä Gate, Nexus että Exit luodaan. Käytännössä usein kuitenkin testataan huoneiden testauksen kautta.
+
+Huoneiden Testaamisessa on pyritty lähinnä tarkistamaan huoneiden välisten relaatioiden korrekti toiminta. Eli esimerkiksi tulevatko kerrokset oikein, laitetaanko oksat oikein, merkitäänkö vanhempi oikein ja tällaista.
