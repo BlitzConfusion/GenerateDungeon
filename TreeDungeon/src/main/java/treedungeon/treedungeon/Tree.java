@@ -74,6 +74,9 @@ public class Tree {
         } else {
             random = seed;
         }
+        if (random > 10000) {
+            random = 10000 + (random % 3);
+        }
     }
     /**
      * Metodi luo varsinaisen Dungeonin. Ensiksi Gate, lopuksi Exit.
@@ -151,10 +154,21 @@ public class Tree {
      * @return 
      */
     private int placeCave() {
-        farms += 3;
-        libraries += 1;
-        barracks += 2;
+        farms += 3 + (random % 5);
+        libraries += 1 + (random % 2);
+        barracks += 2 + (random % 3);
+        randomDivision();
         return 0;
+    }
+    /**
+     * Vähentää 'random'-arvoa jakamalla tiettyyn rajaan asti, jolloin 
+     * lisää ison arvon siihen ja jatkaa normaalisti.
+     */
+    private void randomDivision() {
+        if (random < 3) {
+            random += 9000 + (random % 3);
+        }
+        random /= 3;
     }
     /**
      * Tekee tarpeelliset huonemäärämuutokset NexusRoom:n laittamisen takia.
@@ -162,9 +176,10 @@ public class Tree {
      */
     private int placeNexus() {
         nexus = 0;
-        treasures += 3;
-        libraries += 2;
-        barracks += 1;
+        treasures += 3 + (random % 5);
+        libraries += 2 + (random % 3);
+        barracks += 1 + (random % 2);
+        randomDivision();
         return 1;
     }
     /**

@@ -74,13 +74,13 @@ public class TreeTest {
     public void testDungeonRandom() {
         System.out.println("Check that 'random' gets correct value");
         Tree tree = new Tree(10, 101);
-        assertTrue(tree.random == 101);
+        assertTrue(tree.random >= 0);
     }
     @Test
     public void testRandomNoNegative() {
         System.out.println("Check that 'random' gets non-negative value");
         Tree tree = new Tree(10, -101);
-        assertTrue(tree.random == 101);
+        assertTrue(tree.random >= 0);
     }
     @Test
     /**
