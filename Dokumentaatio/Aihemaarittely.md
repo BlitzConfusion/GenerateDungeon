@@ -4,10 +4,10 @@ GenerateDungeon luo puumaisen luolaston, jossa aluksi luodaan semi-leveyslisäyk
 
 Solmuina toimii erityyppisiä huoneita, joiden konkreettista sisältöä ohjelma ei määritä. Dungeon on abstraktilla tasolla, eli ohjelma joka käyttää sitä saa itse määrittää konkreettiset yksityiskohdat kuten huoneiden sisällön, huoneiden "ovien" paikat ja "käytävien" (yhteyksien) tilan (abstrakti tai konkreettinen).
 
-Ohjelma on semi-leveyssuuntainen sillä tavalla, että uusi huone lisätään tai tungetaan aina suuntaan johon viimeksi ei lisätty tai tungettu.
-Näin puussa yksi kerros täyttyy aina ennen seuraavan aloittamista, ja huonetyyppien sekoittamisen pitäisi tapahtua helpommin. Viimeisenä huoneena lisätään aina exit, eli Dungeonilla on kaksi kulkureittiä.
+Jos haluaa ajatella konkreettisen kuvan avulla, käytännössä Gate-huoneesta roikkuu kaksi erillistä binääripuuta, jotka joiden välillä on joidenkin huoneiden välillä lanka (extra-pohjainen yhteys).
 
-Myöhemmässä vaiheessa tullaan yhteyksien muokkauksen lisäksi mahdollisesti muokkaamaan huoneiden sijaintien todennäköisyyksiä, jos aikaa riittää.
+Ohjelma on semi-leveyssuuntainen sillä tavalla, että uusi huone lisätään tai tungetaan aina oksaan johon viimeksi ei lisätty tai tungettu.
+Näin puussa yksi kerros täyttyy aina ennen seuraavan aloittamista, ja huonetyyppien sekoittamisen pitäisi tapahtua helpommin. Viimeisenä huoneena lisätään aina exit, eli Dungeonilla on kaksi kulkureittiä, Gate ja Exit.
 
 Lähteet tulevat merkityiksi sitä mukaa kun löydän hyödyllisiä lähteitä. Tähän mennessä olen tehnyt tätä päästäni.
 
