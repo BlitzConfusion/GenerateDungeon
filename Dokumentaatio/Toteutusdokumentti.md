@@ -9,5 +9,6 @@ Ohjelma koostuu yksinkertaisuudessaan puuluokasta ja huoneluokista. Huoneluokat 
  ennen uuden kerroksen aloittamista.
  
  Puun aukikirjoittaminen tapahtuu ajassa O(n), sillä kyseessä syvyyssuuntainen läpikäynti.
+ Huoneiden etäisyyden aukikirjoittaminen tapahtuu ajassa O(n), sillä kyseessä yksiulotteinen lista.
  
- Lähteitä ei tällä hetkellä ole.
+ Lähteitä ei ole.
