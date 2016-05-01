@@ -11,8 +11,8 @@ package treedungeon.rooms;
  */
 public class NexusRoom extends Room {
 
-    public NexusRoom(int numero, int paino) {
-        super(numero, paino);
+    public NexusRoom(int numero) {
+        super(numero);
         roomType = "the Nexus";
     }
     

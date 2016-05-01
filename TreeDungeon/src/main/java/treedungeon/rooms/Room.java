@@ -13,7 +13,6 @@ abstract class Room {
     int level = 0;
     int number;
     String roomType;
-    int weight = 0;
     Room parent;
     Room lapsi1;
     Room lapsi2;
@@ -23,13 +22,11 @@ abstract class Room {
     
     /**
      * @param numero antaa tiedon kuinka mones huone on kyseessä.
-     * @param paino antaa tiedon kuinka "arvokas" huone on.
      */
-    public Room(int numero, int paino) {
+    public Room(int numero) {
         number = numero;
         way = true;
         dungeon = false;
-        weight = paino;
         roomType = "void";
     }
     /**
@@ -133,21 +130,13 @@ abstract class Room {
     public String getType() {
         return roomType;
     }
-    
-    /**
-     * palauttaa huoneen "arvon", millä katsotaan kuinka lähellä keskustaa 
-     * huoneen tulisi olla.
-     * @return weight.
-     */
-    public int getPaino() {
-        return weight;
-    }
     /**
      * Asettaa vanhemman uudelle huoneelle.
      * @param vanhempi on huone joka asetetaan vanhemmaksi.
      */
     public void setParent(Room vanhempi) {
         parent = vanhempi;
+        level = vanhempi.getLevel() + 1;
     }
     /**
      * Kertoo josko huone on oleellinen uloskäyntien välikululle.
@@ -171,12 +160,65 @@ abstract class Room {
         
     }
     /**
-     * Poistaa tältä huoneelta tiedon kuka on vanhempi. Väylä ei toiminnassa
-     * tähän suuntaan enää.
+     * Asettaa virrankulun uniformiksi ArrayListiä varten. ArrayListiä ei
+     * vielä toteutettu.
      */
-    public void killParent(){
-        parent = null;
+    public void asetaVirta (){
+        way = true;
+        if (lapsi1 != null){
+            lapsi1.asetaVirta();
+        }
+        
+        if (lapsi2 != null){
+            lapsi2.asetaVirta();
+        }
+        
     }
+    /**
+     * metodille annetaan huoneen numero. Jos numero ei ole tämän huoneen numero,
+     * siirrytään virran mukaisesti seuraavaan huoneeseen. Palauttaa lopulta
+     * etsityn huoneen etäisyyden Gate:sta, tai -1 virhetilanteessa.
+     * @param numero kertoo mitä huonetta etsitään.
+     * @return 
+     */
+    public int etsiHuone(int numero) {
+        int matka = -1;
+        if (numero == number) {
+            way = true;
+            matka = getGateFar(0, true);
+            return matka;
+        }
+        if (way && lapsi1 != null) {
+            way = false;
+            matka = lapsi1.etsiHuone(numero);
+        } else if (!way && lapsi2 != null) {
+            way = true;
+            matka = lapsi2.etsiHuone(numero);
+        }
+        return matka;
+    }
+    /**
+     * Tämä tullee antamaan ArrayListille tiedon kuinka kaukana huone on Gatesta.
+     * Pitää aloittaa arvolla 0 jos haluaa oikeita arvoja.
+     * @param counter kertoo kuinka paljon ollaan jo kuljettu.
+     * @return 
+     */
+    public int getGateFar(int counter, boolean notExtra) {
+        int faraway = getLevel() + counter;
+        if (extra != null && notExtra) {
+            if (extra.getGateFar(counter + 1, false) < faraway) {
+                faraway = extra.getGateFar(counter + 1, false);
+            } 
+        }
+        if (lapsi1 != null && lapsi1.getGateFar(counter + 1, notExtra) < faraway) {
+            faraway = lapsi1.extra.getGateFar(counter + 1, notExtra);
+        }
+        if (lapsi2 != null && lapsi2.getGateFar(counter + 1, notExtra) < faraway) {
+            faraway = lapsi1.extra.getGateFar(counter + 1, notExtra);
+        }
+        return faraway;
+    }
+    
     /**
      * palauttaa huoneen seuraavan virtaussuunnan. Ei välttämättä tarpeellinen.
      * @return virtaussuunta.
@@ -192,8 +234,7 @@ abstract class Room {
         extra = room;
     }
     /**
-     * Tämä metodi kirjoittaa auki muodostetun Dungeonin. Ei vielä huomioi
-     * onko reitti auki juuren suuntaan.
+     * Tämä metodi kirjoittaa auki muodostetun Dungeonin.
      */
     public void printInfo() {
         System.out.print("Room " + number + " is " + roomType + " which leads to " );

@@ -5,6 +5,9 @@
  */
 package treedungeon.treedungeon;
 
+import java.util.Scanner;
+import treedungeon.selfarray.IntArray;
+
 
 
 /**
@@ -16,11 +19,46 @@ public class TreeDungeon {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO code application logic here
-        Tree tree = new Tree(256, 9000);
-        tree.writeDungeon();
+        Tree tree = treeGeneration();
+        if (tree != null) {
+            IntArray array = new IntArray(tree.getDungeonSize());
+            tree.root.asetaVirta();
+            for(int i = 0; i < tree.getDungeonSize(); i++) {
+                array.lisaa(tree.getRoomDistance(i));
+                
+            }
+            array.printInfo();
+        }
     }
-    
+    /**
+     * Metodi pyörittää generointia niin akuan kuin käyttäjä haluaa, jonka jälkeen
+     * homma loppuu huoneiden etäisyyden Gatesta listaamiseen.
+     * @return 
+     */
+    private static Tree treeGeneration() {
+        Scanner reader = new Scanner(System.in);
+        Tree tree = null;
+        boolean jatka = true;
+        System.out.println("Welcome to DungeonGenerator.");
+        while (jatka) {
+            System.out.println("Enter the number of Rooms: ");
+            int n = reader.nextInt();
+            System.out.println("Enter the random seed: ");
+            int m = reader.nextInt();
+            tree = new Tree(n, m);
+            System.out.println("Your Dungeon has been Generated:");
+            System.out.println("");
+            tree.writeDungeon();
+            System.out.println("");
+            System.out.println("Press 0 to end, press anything else to begin anew: ");
+            int k = reader.nextInt();
+            if (k == 0) {
+                return tree;
+            }
+        }
+        return tree;
+    }
     
 }

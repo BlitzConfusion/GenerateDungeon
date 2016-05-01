@@ -11,8 +11,8 @@ package treedungeon.rooms;
  */
 public class CaveRoom extends Room {
 
-    public CaveRoom(int numero, int paino) {
-        super(numero, paino);
+    public CaveRoom(int numero) {
+        super(numero);
         roomType = "Cave";
     }
     

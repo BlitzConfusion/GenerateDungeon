@@ -68,6 +68,10 @@ public class Tree {
             libraryweight = 7;
         }
     }
+    /**
+     * Asettaa randomseedin arvon halutulle välille inputin mukaisesti.
+     * @param seed 
+     */
     public void setSeed(int seed) {
         if (seed < 0) {
             random = 0 - seed;
@@ -85,35 +89,35 @@ public class Tree {
      * (eli parittomilla oikealle, parillisilla vasemmalle haaralle).
      */
     public void createDungeon() {
-        root = new GateRoom(0, 0);
+        root = new GateRoom(0);
         for(int i = 1; i < room - 1; i++) {
             int chooser = chooseRoom();
             if (chooser == 0) {
-                CaveRoom uusi = new CaveRoom(i, 0);
+                CaveRoom uusi = new CaveRoom(i);
                 root.setChild(uusi);
             }
             if (chooser == 1) {
-                NexusRoom uusi = new NexusRoom(i, 5);
+                NexusRoom uusi = new NexusRoom(i);
                 root.setChild(uusi);
             }
             if (chooser == 2) {
-                TreasureRoom uusi = new TreasureRoom(i, 4);
+                TreasureRoom uusi = new TreasureRoom(i);
                 root.setChild(uusi);
             }
             if (chooser == 3) {
-                BarracksRoom uusi = new BarracksRoom(i, 2);
+                BarracksRoom uusi = new BarracksRoom(i);
                 root.setChild(uusi);
             }
             if (chooser == 4) {
-                LibraryRoom uusi = new LibraryRoom(i, 3);
+                LibraryRoom uusi = new LibraryRoom(i);
                 root.setChild(uusi);
             }
             if (chooser == 5) {
-                FarmRoom uusi = new FarmRoom(i, 1);
+                FarmRoom uusi = new FarmRoom(i);
                 root.setChild(uusi);
             }
         }
-        ExitRoom exit = new ExitRoom(room - 1, 0);
+        ExitRoom exit = new ExitRoom(room - 1);
         root.setChild(exit);
     }
     /**
@@ -165,7 +169,7 @@ public class Tree {
      * lisää ison arvon siihen ja jatkaa normaalisti.
      */
     private void randomDivision() {
-        if (random < 3) {
+        if (random < 1000) {
             random += 9000 + (random % 3);
         }
         random /= 3;
@@ -207,5 +211,13 @@ public class Tree {
      */
     public int getDungeonSize() {
         return room;
+    }
+    /**
+     * Metodi alkaa etsiä huonetta palauttaakseen sen etäisyyden Gatesta.
+     * @param roomNumber on etsitty huone.
+     * @return etäisyys Gatesta tai -1 virhetilanteessa.
+     */
+    public int getRoomDistance(int roomNumber) {
+        return root.etsiHuone(roomNumber);
     }
 }

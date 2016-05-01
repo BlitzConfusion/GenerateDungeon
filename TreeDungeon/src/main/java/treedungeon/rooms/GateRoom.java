@@ -16,8 +16,8 @@ public class GateRoom extends Room {
      * @param vanhempi
      * @param numero 
      */
-    public GateRoom(int numero, int paino) {
-        super(numero, paino);
+    public GateRoom(int numero) {
+        super(numero);
         roomType = "the Gate";
     }
     
