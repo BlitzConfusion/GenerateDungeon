@@ -44,21 +44,28 @@ public class TreeDungeon {
         System.out.println("Welcome to DungeonGenerator.");
         while (jatka) {
             System.out.println("Enter the number of Rooms: ");
-            int n = reader.nextInt();
+            int n = readerNext();
             System.out.println("Enter the random seed: ");
-            int m = reader.nextInt();
+            int m = readerNext();
             tree = new Tree(n, m);
             System.out.println("Your Dungeon has been Generated:");
             System.out.println("");
             tree.writeDungeon();
             System.out.println("");
             System.out.println("Press 0 to end, press anything else to begin anew: ");
-            int k = reader.nextInt();
+            int k = readerNext();
             if (k == 0) {
                 return tree;
             }
         }
         return tree;
     }
-    
+    private static int readerNext() {
+        Scanner reader = new Scanner(System.in);
+        while(!reader.hasNextInt()) {
+                System.out.println("Incorrect input, try again.");
+                reader.next();
+            }
+        return reader.nextInt();
+    }
 }
